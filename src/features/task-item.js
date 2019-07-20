@@ -8,12 +8,12 @@ export default function TaskItem(props) {
 
   const {task} = props;
   return (
-  <li key={task.id}>
+    <li key={task.id}>
         {task.edit && <input type="text"
           defaultValue={task.title} 
           onKeyDown={(e)=>props.onKeyDown(e,task.id)}  />}
         {!task.edit && <span onDoubleClick={()=>props.ontoggleEdit(task.id)} >{task.title}</span>}
         <button onClick={()=>{onDelete(task.id)}}>x</button>
-      </li>
+    </li>
   )
 }
