@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
 
+import countries from './data/countries';
+
 import HelloWorld from  './fcomps/hello-world';
 import TaskItem from './features/task-item';
 import UseState1 from './fcomps/usestate-1';
+import UseReducer1 from './fcomps/usereducer-1';
+import Autocomplete from './components/autocomplete';
 
 class App extends React.Component {
 
@@ -119,6 +123,10 @@ class App extends React.Component {
     alert(msg);
   }
 
+  onCountrySelected(country) {
+    console.log(`Selected country is ${country}`);
+  }
+
   render() {
     const taskList = this.state.tasks.map((task) => {
       return (
@@ -129,9 +137,20 @@ class App extends React.Component {
       )
     });
     
+   
+
     return (
        <div className="App">
-          <UseState1 />
+        
+          WHere are you from ?
+          <Autocomplete 
+            onItemSelected={this.onCountrySelected}
+            data ={countries} placeholder="enter country names" />
+       
+          <UseReducer1 />
+
+          {/* <UseState1 /> */}
+
           <HelloWorld 
             onMessage={this.onMessage}
             message="Welcome React"/>
