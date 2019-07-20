@@ -1,6 +1,10 @@
 import React from 'react';
 import './App.css';
 
+import HelloWorld from  './fcomps/hello-world';
+import TaskItem from './features/task-item';
+import UseState1 from './fcomps/usestate-1';
+
 class App extends React.Component {
 
   state = {
@@ -13,14 +17,16 @@ class App extends React.Component {
     newTitle: "",
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.inputTitle = React.createRef();
     this.editTitle = React.createRef();
 
     // Prefer bind method
     //this.toggleTaskForm = this.toggleTaskForm.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.ontoggleEdit = this.ontoggleEdit.bind(this);
   }
 
   onSubmit(e) {
@@ -109,9 +115,28 @@ class App extends React.Component {
     });
   }
 
+  onMessage(msg) {
+    alert(msg);
+  }
+
   render() {
+    const taskList = this.state.tasks.map((task) => {
+      return (
+        <TaskItem key={task.id} onDelete={this.onDelete} 
+            onKeyDown = {this.onKeyDown}
+            ontoggleEdit={this.ontoggleEdit}
+            task={task} />
+      )
+    });
+    
     return (
        <div className="App">
+          <UseState1 />
+          <HelloWorld 
+            onMessage={this.onMessage}
+            message="Welcome React"/>
+
+            {this.props.data}
           <header className="App-header">
             Nifty Task Tracker
             <button onClick={()=>this.toggleTaskForm()}>+</button>
@@ -128,20 +153,7 @@ class App extends React.Component {
           {
             (this.state.tasks.length <= 0) && <h3>Be awesome.  Add some tasks</h3>
           }
-          <div>{
-            this.state.tasks.map((task) => {
-              return (
-                <li key={task.id}>
-                  {task.edit && <input type="text"
-                    ref={this.editTitle}
-                    defaultValue={task.title} 
-                    onKeyDown={(e)=>this.onKeyDown(e,task.id)}  />}
-                  {!task.edit && <span onDoubleClick={()=>this.ontoggleEdit(task.id)} >{task.title}</span>}
-                  <button onClick={()=>{this.onDelete(task.id)}}>x</button>
-                </li>
-              )
-            })
-          }</div>
+          <div><ul>{taskList}</ul></div>
       </div>
     );
   }
@@ -149,6 +161,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-
