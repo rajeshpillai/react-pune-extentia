@@ -141,12 +141,13 @@ class App extends React.Component {
 
     return (
        <div className="App">
-        
           WHere are you from ?
           <Autocomplete 
             onItemSelected={this.onCountrySelected}
             data ={countries} placeholder="enter country names" />
        
+         
+
           <UseReducer1 />
 
           {/* <UseState1 /> */}
